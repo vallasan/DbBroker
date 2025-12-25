@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DbBroker Dashboard - Error</title>
+
+    <th:block th:replace="~{dbbroker/fragments/config :: config-script}"></th:block>
+    <th:block th:replace="~{dbbroker/fragments/head :: css-includes}"></th:block>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Error Alert -->
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">
+                    <i class="fas fa-exclamation-triangle"></i> Dashboard Error
+                </h4>
+                <p th:text="${error}">An unexpected error occurred</p>
+                <hr>
+                <p class="mb-0 small" th:if="${errorDetails}" th:text="${errorDetails}">Error details</p>
+            </div>
+
+            <!-- Navigation Back -->
+            <div class="text-center mb-4">
+                <a th:href="@{${basePath} + '/dashboard'}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <button onclick="location.reload()" class="btn btn-outline-secondary">
+                    <i class="fas fa-sync-alt"></i> Retry
+                </button>
+            </div>
+
+            <!-- Auto-retry Section -->
+            <div class="mt-4 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <i class="fas fa-clock"></i> Auto-retry
+                        </h6>
+                        <p class="card-text">
+                            Automatically retrying in <span id="countdown" class="fw-bold">30</span> seconds
+                        </p>
+                        <button id="cancelRetry" class="btn btn-sm btn-outline-warning">
+                            <i class="fas fa-times"></i> Cancel Auto-retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let retryCountdown = 30;
+    let retryTimer;
+
+    function startRetryCountdown() {
+        const countdownEl = document.getElementById('countdown');
+        const cancelBtn = document.getElementById('cancelRetry');
+
+        if (!countdownEl) return;
+
+        retryTimer = setInterval(() => {
+            retryCountdown--;
+
+            countdownEl.textContent = `${retryCountdown}`;
+
+            if (retryCountdown <= 10) {
+                countdownEl.classList.add('text-warning');
+            }
+            if (retryCountdown <= 5) {
+                countdownEl.classList.remove('text-warning');
+                countdownEl.classList.add('text-danger');
+            }
+
+            if (retryCountdown <= 0) {
+                clearInterval(retryTimer);
+                countdownEl.textContent = 'Reloading...';
+                setTimeout(() => location.reload(), 500);
+            }
+        }, 1000);
+
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                clearInterval(retryTimer);
+                document.querySelector('.mt-4.text-center:last-child').style.display = 'none';
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', startRetryCountdown);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Service Status Header Fragment -->
+<div th:fragment="service-header" class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="card-title mb-0">
+                            <span class="badge me-2"
+                                  data-element="status-badge"
+                                  th:class="${serviceRunning != null && serviceRunning} ? 'badge bg-success me-2' : 'badge bg-danger me-2'">●</span>
+                            <span data-element="status-text"
+                                  th:text="${serviceRunning != null && serviceRunning} ? 'ENGINE RUNNING' : 'ENGINE STOPPED'">ENGINE STATUS</span>
+                        </h4>
+                        <p class="text-muted mb-0"
+                           data-element="system-summary"
+                           th:text="${systemSummary ?: 'System initializing...'}">System Summary</p>
+                    </div>
+
+                    <!-- Control Buttons -->
+                    <div th:replace="~{dbbroker/fragments/controls :: control-buttons}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Control Buttons Fragment -->
+<div th:fragment="control-buttons" class="btn-group" role="group">
+    <!-- BUTTON 1: "Stop Engine" -->
+    <button type="button"
+            class="btn btn-danger"
+            data-action="stop"
+            th:disabled="${serviceRunning == null || !serviceRunning}"
+            title="Stop engine">
+        <i class="fas fa-stop"></i> Stop Engine
+    </button>
+
+    <!-- BUTTON 2: "Restart Engine" -->
+    <button type="button"
+            class="btn btn-warning"
+            data-action="restart"
+            title="Restart engine">
+        <i class="fas fa-redo"></i> Restart Engine
+    </button>
+
+    <!-- BUTTON 3: Fix Failed -->
+    <button type="button"
+            th:class="${failedListeners != null && failedListeners > 0} ? 'btn btn-warning' : 'btn btn-info'"
+            th:disabled="${!serviceRunning || failedListeners == null || failedListeners <= 0}"
+            data-action="restart-failed"
+            th:title="'Restart ' + (${failedListeners} ?: 0) + ' failed listeners'">
+        <i class="fas fa-wrench"></i>
+        <span th:text="'Fix Failed (' + (${failedListeners} ?: 0) + ')'">Fix Failed (0)</span>
+    </button>
+
+    <!-- BUTTON 4: "Refresh" -->
+    <button type="button"
+            class="btn btn-secondary"
+            data-refresh="live-data"
+            title="Refresh dashboard">
+        <i class="fas fa-sync"></i> Refresh
+    </button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Navigation Fragment -->
+<nav th:fragment="navbar" class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">
+            <i class="fas fa-tachometer-alt"></i> DbBroker Engine Dashboard
+        </span>
+        <span class="text-light small">
+            Last updated: <span class="stats-updating"
+                                data-stat="last-update"
+                                th:text="${refreshTime != null ? #temporals.format(refreshTime, 'HH:mm:ss') : '--:--:--'}">--:--:--</span>
+        </span>
+    </div>
+</nav>
+
+</body>
+</html>

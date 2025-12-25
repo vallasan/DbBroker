@@ -1,0 +1,840 @@
+/* ========================================
+   DbBroker Dashboard Styles
+   ======================================== */
+
+/* General Dashboard Styling */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Card Enhancements */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    font-weight: 600;
+}
+
+/* Status Indicators */
+.badge {
+    font-size: 0.75em;
+    font-weight: 600;
+}
+
+/* Button Enhancements */
+.btn {
+    font-weight: 500;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-group .btn {
+    border-radius: 0.375rem;
+    margin-right: 0.25rem;
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0;
+}
+
+/* Metrics Cards */
+.card-body.text-center {
+    padding: 1.5rem;
+}
+
+.card-body.text-center i {
+    margin-bottom: 0.5rem;
+}
+
+.card-body.text-center h3 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* Status Messages */
+#statusMessages {
+    position: relative;
+    z-index: 1050;
+}
+
+.alert {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Table Enhancements */
+.table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+/* Loading States */
+.btn .fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Stats Updating Animation */
+.stats-updating {
+    transition: all 0.3s ease-in-out;
+}
+
+.stats-updating.updating {
+    opacity: 0.6;
+    transform: scale(0.98);
+}
+
+/* ========================================
+   Error Section Visibility Classes
+   ======================================== */
+
+/* Visibility control classes */
+.error-section-hidden {
+    display: none !important;
+}
+
+.error-section-visible {
+    display: block !important;
+}
+
+/* ========================================
+   Error Section Styling
+   ======================================== */
+
+/* No Errors Section */
+[data-section="no-errors"] {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    border: 2px dashed #dee2e6;
+    margin: 1rem 0;
+    transition: all 0.3s ease-in-out;
+}
+
+[data-section="no-errors"]:hover {
+    border-color: #28a745;
+    background-color: #f0fff4;
+}
+
+[data-section="no-errors"] i {
+    transition: transform 0.3s ease-in-out;
+}
+
+[data-section="no-errors"]:hover i {
+    transform: scale(1.1);
+}
+
+/* Error Summary Section */
+[data-section="error-summary"] {
+    margin-bottom: 1.5rem;
+}
+
+[data-section="error-summary"] .alert {
+    border-left: 4px solid;
+    font-weight: 500;
+}
+
+[data-section="error-summary"] .alert-danger {
+    border-left-color: #dc3545;
+    animation: pulse-danger 2s infinite;
+}
+
+[data-section="error-summary"] .alert-warning {
+    border-left-color: #ffc107;
+}
+
+[data-section="error-summary"] .alert-info {
+    border-left-color: #17a2b8;
+}
+
+/* Error List Container */
+.error-log-container {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+    margin: 1rem 0;
+}
+
+.error-log-container .table-responsive {
+    border-radius: 0.375rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    background-color: #fff;
+}
+
+.error-log-container .table {
+    margin-bottom: 0;
+    font-size: 0.875rem;
+    background-color: #fff;
+}
+
+.error-log-container .table th {
+    border-top: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    background-color: #343a40;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.error-log-container .table td {
+    vertical-align: middle;
+    padding: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Error Severity Row Styling */
+.error-log-container .table-danger {
+    --bs-table-bg: #f8d7da;
+    --bs-table-hover-bg: #f5c2c7;
+    border-left: 3px solid #dc3545;
+}
+
+.error-log-container .table-warning {
+    --bs-table-bg: #fff3cd;
+    --bs-table-hover-bg: #ffecb5;
+    border-left: 3px solid #ffc107;
+}
+
+.error-log-container .table-info {
+    --bs-table-bg: #d1ecf1;
+    --bs-table-hover-bg: #b6e3f0;
+    border-left: 3px solid #17a2b8;
+}
+
+.error-log-container .table-light {
+    --bs-table-bg: #f8f9fa;
+    --bs-table-hover-bg: #e9ecef;
+    border-left: 3px solid #6c757d;
+}
+
+/* Error Message Styling */
+.error-log-container .font-monospace {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    color: #495057;
+}
+
+.error-log-container .small {
+    font-size: 0.875rem;
+}
+
+/* Error Statistics Section */
+[data-section="error-statistics"] {
+    margin-top: 1.5rem;
+}
+
+[data-section="error-statistics"] .card.bg-light {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6;
+}
+
+[data-section="error-statistics"] .card-body {
+    padding: 1rem;
+}
+
+[data-section="error-statistics"] .text-danger {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+[data-section="error-statistics"] .text-info {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+[data-section="error-statistics"] .text-warning {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+/* Error Badge Animations */
+.badge.bg-danger {
+    animation: pulse-danger 2s infinite;
+}
+
+.badge.bg-warning {
+    animation: pulse-warning 2s infinite;
+}
+
+@keyframes pulse-danger {
+    0% { opacity: 1; box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+    50% { opacity: 0.8; box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+    100% { opacity: 1; box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+
+@keyframes pulse-warning {
+    0% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+    50% { opacity: 0.8; box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+    100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+}
+
+/* Error Section Transitions */
+[data-section="no-errors"],
+[data-section="error-summary"],
+[data-section="error-list"],
+[data-section="error-statistics"] {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Hidden state for all error sections */
+[data-section="no-errors"].error-section-hidden,
+[data-section="error-summary"].error-section-hidden,
+[data-section="error-list"].error-section-hidden,
+[data-section="error-statistics"].error-section-hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* Visible state for all error sections */
+[data-section="no-errors"].error-section-visible,
+[data-section="error-summary"].error-section-visible,
+[data-section="error-list"].error-section-visible,
+[data-section="error-statistics"].error-section-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========================================
+   Listener Table Enhancements
+   ======================================== */
+
+.table-responsive {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Listener status badges */
+.badge.bg-success {
+    background-color: #198754 !important;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.badge.bg-info {
+    background-color: #0dcaf0 !important;
+    color: #000 !important;
+}
+
+/* Performance grade styling */
+.badge.bg-success {
+    box-shadow: 0 0 0.5rem rgba(25, 135, 84, 0.3);
+}
+
+.badge.bg-info {
+    box-shadow: 0 0 0.5rem rgba(13, 202, 240, 0.3);
+}
+
+.badge.bg-warning {
+    box-shadow: 0 0 0.5rem rgba(255, 193, 7, 0.3);
+}
+
+.badge.bg-danger {
+    box-shadow: 0 0 0.5rem rgba(220, 53, 69, 0.3);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 576px) {
+    .container-fluid {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-group .btn {
+        margin-right: 0;
+        margin-bottom: 0.25rem;
+        border-radius: 0.375rem !important;
+    }
+
+    .btn-group .btn:last-child {
+        margin-bottom: 0;
+    }
+
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+
+    /* Mobile Error Section */
+    .error-log-container {
+        padding: 0.5rem;
+    }
+
+    .error-log-container .table-responsive {
+        max-height: 300px;
+    }
+
+    .error-log-container .table th,
+    .error-log-container .table td {
+        padding: 0.25rem;
+        font-size: 0.8rem;
+    }
+
+    [data-section="error-statistics"] .row > div {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .card-body.text-center h3 {
+        font-size: 1.5rem;
+    }
+
+    .card-body.text-center i {
+        font-size: 1.5rem !important;
+    }
+
+    /* **UPDATED: Tablet Error Section** */
+    .error-log-container .table-responsive {
+        max-height: 350px;
+    }
+}
+
+/* ========================================
+   Dark Mode Support
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #212529;
+        color: #fff;
+    }
+
+    .card {
+        background-color: #343a40;
+        border-color: #495057;
+    }
+
+    .card-header {
+        background-color: #495057;
+        border-color: #6c757d;
+    }
+
+    .table {
+        color: #fff;
+    }
+
+    .table th {
+        background-color: #495057;
+        color: #fff;
+    }
+
+    /* Dark Mode Error Sections */
+    [data-section="no-errors"] {
+        background-color: #495057;
+        border-color: #6c757d;
+        color: #fff;
+    }
+
+    [data-section="no-errors"]:hover {
+        border-color: #28a745;
+        background-color: #1e3a2e;
+    }
+
+    .error-log-container {
+        background-color: #495057;
+        border-color: #6c757d;
+    }
+
+    .error-log-container .table-responsive {
+        background-color: #343a40;
+    }
+
+    .error-log-container .table {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    [data-section="error-statistics"] .card.bg-light {
+        background-color: #495057 !important;
+        border-color: #6c757d;
+        color: #fff;
+    }
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+    .btn-group,
+    .navbar,
+    #statusMessages {
+        display: none !important;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+
+    .error-log-container .table-responsive {
+        max-height: none;
+        overflow: visible;
+    }
+
+    .badge {
+        border: 1px solid #000;
+        color: #000 !important;
+        background-color: #fff !important;
+    }
+
+    /* **UPDATED: Print Error Sections** */
+    [data-section="no-errors"] {
+        border: 1px solid #000;
+        background-color: #fff;
+        color: #000;
+    }
+
+    .error-log-container {
+        border: 1px solid #000;
+        background-color: #fff;
+        page-break-inside: avoid;
+    }
+
+    .error-log-container .table {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .error-log-container .table th {
+        background-color: #f8f9fa;
+        color: #000;
+        border: 1px solid #000;
+    }
+
+    .error-log-container .table td {
+        border: 1px solid #000;
+        color: #000;
+    }
+
+    [data-section="error-statistics"] .card {
+        border: 1px solid #000;
+        background-color: #fff;
+        color: #000;
+    }
+
+    /* Remove animations in print */
+    .badge.bg-danger,
+    .badge.bg-warning {
+        animation: none;
+    }
+
+    /* Ensure error severity colors are visible in print */
+    .error-log-container .table-danger {
+        background-color: #f8d7da !important;
+        border-left: 3px solid #000 !important;
+    }
+
+    .error-log-container .table-warning {
+        background-color: #fff3cd !important;
+        border-left: 3px solid #000 !important;
+    }
+
+    .error-log-container .table-info {
+        background-color: #d1ecf1 !important;
+        border-left: 3px solid #000 !important;
+    }
+
+    .error-log-container .table-light {
+        background-color: #f8f9fa !important;
+        border-left: 3px solid #000 !important;
+    }
+}
+
+/* ========================================
+   Accessibility Enhancements
+   ======================================== */
+
+/* Focus indicators */
+.btn:focus,
+.btn:focus-visible {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+    .card {
+        border: 2px solid #000;
+        background-color: #fff;
+        color: #000;
+    }
+
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #000;
+    }
+
+    .badge {
+        border: 1px solid #000;
+        font-weight: bold;
+    }
+
+    .alert {
+        border: 2px solid #000;
+    }
+
+    .table {
+        border: 1px solid #000;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #000;
+    }
+
+    .btn {
+        border: 2px solid #000;
+        font-weight: bold;
+    }
+
+    /* Ensure text contrast */
+    .text-muted {
+        color: #333 !important;
+    }
+
+    /* **UPDATED: High Contrast Error Sections** */
+    [data-section="no-errors"] {
+        border: 2px solid #000;
+        background-color: #fff;
+        color: #000;
+    }
+
+    .error-log-container {
+        border: 2px solid #000;
+        background-color: #fff;
+    }
+
+    .error-log-container .table-responsive {
+        border: 2px solid #000;
+    }
+
+    .error-log-container .table-danger {
+        background-color: #ffebee !important;
+        border: 2px solid #d32f2f !important;
+        border-left: 4px solid #d32f2f !important;
+    }
+
+    .error-log-container .table-warning {
+        background-color: #fff8e1 !important;
+        border: 2px solid #f57c00 !important;
+        border-left: 4px solid #f57c00 !important;
+    }
+
+    .error-log-container .table-info {
+        background-color: #e3f2fd !important;
+        border: 2px solid #1976d2 !important;
+        border-left: 4px solid #1976d2 !important;
+    }
+
+    .error-log-container .table-light {
+        background-color: #fafafa !important;
+        border: 2px solid #424242 !important;
+        border-left: 4px solid #424242 !important;
+    }
+
+    [data-section="error-statistics"] .card {
+        border: 2px solid #000;
+        background-color: #fff;
+        color: #000;
+    }
+
+    /* High contrast badges */
+    .badge.bg-danger {
+        background-color: #d32f2f !important;
+        color: #fff !important;
+        border: 2px solid #000;
+    }
+
+    .badge.bg-warning {
+        background-color: #f57c00 !important;
+        color: #fff !important;
+        border: 2px solid #000;
+    }
+
+    .badge.bg-info {
+        background-color: #1976d2 !important;
+        color: #fff !important;
+        border: 2px solid #000;
+    }
+
+    .badge.bg-secondary {
+        background-color: #424242 !important;
+        color: #fff !important;
+        border: 2px solid #000;
+    }
+
+    .badge.bg-success {
+        background-color: #388e3c !important;
+        color: #fff !important;
+        border: 2px solid #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .btn,
+    .stats-updating,
+    .badge.bg-danger,
+    .badge.bg-warning {
+        animation: none;
+        transition: none;
+    }
+
+    .btn:hover {
+        transform: none;
+    }
+
+    [data-section="error-summary"],
+    [data-section="error-list"],
+    [data-section="error-statistics"] {
+        transition: none;
+    }
+
+    [data-section="no-errors"] i {
+        transition: none;
+    }
+
+    [data-section="no-errors"]:hover i {
+        transform: none;
+    }
+}
+
+/* ========================================
+   Error Section Specific Utilities
+   ======================================== */
+
+/* Error message truncation with tooltip */
+.error-message-truncated {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: help;
+}
+
+/* NEW: Error timestamp formatting */
+.error-timestamp {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+/* Error severity indicators */
+.error-severity-critical {
+    position: relative;
+}
+
+.error-severity-critical::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 100%;
+    background-color: #dc3545;
+    border-radius: 2px;
+}
+
+/* Error count animation */
+.error-count-updating {
+    animation: count-update 0.5s ease-in-out;
+}
+
+@keyframes count-update {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); color: #dc3545; }
+    100% { transform: scale(1); }
+}
+
+/* Empty state styling */
+.error-empty-state {
+    opacity: 0.8;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.error-empty-state:hover {
+    opacity: 1;
+}

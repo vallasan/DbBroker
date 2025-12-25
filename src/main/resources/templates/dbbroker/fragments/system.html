@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- System Information Fragment -->
+<div th:fragment="system-info" class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-info-circle"></i> System Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <!-- System Details -->
+                <div th:replace="~{dbbroker/fragments/system :: system-details}"></div>
+
+                <!-- Listeners Table -->
+                <div th:replace="~{dbbroker/fragments/system :: listeners-section}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- System Details Fragment -->
+<div th:fragment="system-details" class="row">
+    <div class="col-md-4">
+        <h6>Queue Name</h6>
+        <p class="text-muted"
+           data-info="queue-name"
+           th:text="${queueName ?: 'Not configured'}">Not configured</p>
+    </div>
+    <div class="col-md-4">
+        <h6>Engine Status</h6>
+        <p data-info="engine-status"
+           th:class="${serviceRunning != null && serviceRunning} ? 'text-success' : 'text-danger'"
+           th:text="${serviceRunning != null && serviceRunning} ? 'Running' : 'Stopped'">Unknown</p>
+    </div>
+    <div class="col-md-4">
+        <h6>Last Update</h6>
+        <p class="text-muted" th:text="${refreshTime != null ? #temporals.format(refreshTime, 'HH:mm:ss') : 'Never'}">Never</p>
+    </div>
+</div>
+
+<!-- Listeners Section Fragment -->
+<div th:fragment="listeners-section">
+    <!-- Active Listeners -->
+    <div class="row mt-3" th:if="${listenerDiagnostics != null && !#lists.isEmpty(listenerDiagnostics)}">
+        <div class="col-12">
+            <h6>Active Listeners <span class="badge bg-info ms-2" data-stat="listener-count" th:text="${#lists.size(listenerDiagnostics)}">0</span></h6>
+            <div class="table-responsive">
+                <table class="table table-sm" data-table="listeners">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Queue</th>
+                        <th>Status</th>
+                        <th>Messages/sec</th>
+                        <th>Error Rate</th>
+                        <th>Grade</th>
+                        <th>Uptime</th>
+                        <th>Activity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="listener : ${listenerDiagnostics}">
+                        <td><code th:text="${listener.sensor?.listenerName ?: 'N/A'}">L-N/A</code></td>
+                        <td th:text="${listener.sensor?.queueName ?: 'Unknown'}">Unknown</td>
+                        <td>
+                            <span class="badge"
+                                  th:class="${listener.healthStatus == 'HEALTHY'} ? 'badge bg-success' : 'badge bg-danger'"
+                                  th:text="${listener.healthStatus ?: 'UNKNOWN'}">UNKNOWN</span>
+                        </td>
+                        <td th:text="${listener.sensor?.messagesPerSecond != null ? #numbers.formatDecimal(listener.sensor.messagesPerSecond, 1, 2) + ' msg/sec' : '0.00 msg/sec'}">0.00 msg/sec</td>
+                        <td th:text="${listener.sensor?.errorRate != null ? #numbers.formatDecimal(listener.sensor.errorRate * 100, 1, 1) + '%' : '0.0%'}">0.0%</td>
+                        <td>
+                            <span class="badge"
+                                  th:class="${listener.performanceGrade == 'A'} ? 'badge bg-success' : (${listener.performanceGrade == 'B'} ? 'badge bg-info' : (${listener.performanceGrade == 'C'} ? 'badge bg-warning' : 'badge bg-danger'))"
+                                  th:text="${listener.performanceGrade ?: 'F'}">F</span>
+                        </td>
+                        <td class="text-muted small">--:--:--</td>
+                        <td><span class="badge bg-secondary">Idle</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- No Listeners Message -->
+    <div class="row mt-3" th:if="${listenerDiagnostics == null || #lists.isEmpty(listenerDiagnostics)}">
+        <div class="col-12 text-center text-muted">
+            <i class="fas fa-info-circle fa-2x mb-2"></i>
+            <p>No active listeners</p>
+            <small>Start the engine to see listener information</small>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

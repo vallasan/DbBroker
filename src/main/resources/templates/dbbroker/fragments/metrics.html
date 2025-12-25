@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Metrics Cards Fragment -->
+<div th:fragment="metrics-cards" class="row mb-4">
+    <!-- Throughput Card -->
+    <div th:replace="~{dbbroker/fragments/metrics :: throughput-card}"></div>
+
+    <!-- Error Rate Card -->
+    <div th:replace="~{dbbroker/fragments/metrics :: error-rate-card}"></div>
+
+    <!-- Listeners Card -->
+    <div th:replace="~{dbbroker/fragments/metrics :: listeners-card}"></div>
+
+    <!-- Uptime Card -->
+    <div th:replace="~{dbbroker/fragments/metrics :: uptime-card}"></div>
+</div>
+
+<!-- Individual Metric Cards -->
+<div th:fragment="throughput-card" class="col-md-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <i class="fas fa-tachometer-alt fa-2x text-primary mb-2"></i>
+            <h5 class="card-title">Throughput</h5>
+            <h3 class="text-primary">
+                <span data-metric="throughput"
+                      th:text="${performance != null && performance.totalMessagesPerSecond != null ? #numbers.formatDecimal(performance.totalMessagesPerSecond, 1, 2) + ' msg/sec' : '0.00 msg/sec'}">0.00 msg/sec</span>
+            </h3>
+            <small class="text-muted">
+                <span data-metric-time="throughput"
+                      th:text="${performance != null && performance.lastUpdateTime != null ? 'Updated: ' + #temporals.format(performance.lastUpdateTime, 'HH:mm:ss') : 'Updated: --:--:--'}">Updated: --:--:--</span>
+            </small>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="error-rate-card" class="col-md-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
+            <h5 class="card-title">Error Rate</h5>
+            <h3 class="text-warning">
+                <span data-metric="error-rate"
+                      th:text="${healthStatus != null && healthStatus.errorRate != null ? #numbers.formatDecimal(healthStatus.errorRate * 100, 1, 2) + '%' : '0.00%'}">0.00%</span>
+            </h3>
+            <small class="text-muted">
+                <span data-metric-time="error-rate"
+                      th:text="${healthStatus != null && healthStatus.lastHealthCheck != null ? 'Checked: ' + #temporals.format(healthStatus.lastHealthCheck, 'HH:mm:ss') : 'Checked: --:--:--'}">Checked: --:--:--</span>
+            </small>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="listeners-card" class="col-md-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <i class="fas fa-users fa-2x text-success mb-2"></i>
+            <h5 class="card-title">Active Listeners</h5>
+            <h3 class="text-success">
+                <span data-metric="listeners">
+                    <span th:text="${activeListeners ?: 0}">0</span>/<span th:text="${configuredListeners ?: 0}">0</span>
+                </span>
+            </h3>
+            <small class="text-muted">
+                Failed: <span data-metric="failed-listeners" th:text="${failedListeners ?: 0}">0</span>
+                <br><span data-metric-time="listeners">Last check: --:--:--</span>
+            </small>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="uptime-card" class="col-md-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <i class="fas fa-clock fa-2x text-info mb-2"></i>
+            <h5 class="card-title">Uptime</h5>
+            <h3 class="text-info">
+                <span data-metric="uptime"
+                      th:text="${uptime ?: '00:00:00'}">00:00:00</span>
+            </h3>
+            <small class="text-muted">
+                <span data-metric-time="uptime">Live data</span>
+            </small>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+db-broker:
+  queue-name: "MyServiceBrokerQueue"                                    # Required
+  listener-threads: 4                                                   # Default
+
+  datasource:
+    url: "jdbc:sqlserver://localhost:1433;databaseName=MyDatabase;encrypt=true;trustServerCertificate=true" # Required
+    username: "dbuser"                                                  # Required
+    password: "dbpassword"                                              # Required
+    driver-class-name: "com.microsoft.sqlserver.jdbc.SQLServerDriver"   # Default
+    hikari:
+      maximum-pool-size: 5                                              # Default
+
+  error-handling:                                                       # Default
+    max-retries: 3
+    base-retry-delay-ms: 1000
+    max-retry-delay-ms: 30000
+    use-exponential-backoff: true
+
+  shutdown:                                                             # Default
+    graceful-timeout-seconds: 30
+
+  web-dashboard:                                                        # Default
+    enabled: true

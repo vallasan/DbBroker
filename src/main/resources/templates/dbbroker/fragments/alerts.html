@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Error Display Fragment -->
+<div th:fragment="error-display" th:if="${error}" class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${error}">Error message</span>
+        </div>
+    </div>
+</div>
+
+<!-- Status Messages Fragment -->
+<div th:fragment="status-messages" class="row mb-4" id="statusMessages" style="display: none;">
+    <div class="col-12">
+        <div class="alert alert-info alert-dismissible fade show" role="alert" id="statusAlert">
+            <i class="fas fa-info-circle"></i>
+            <span id="statusMessage">Processing...</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="hideStatusMessage()"></button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

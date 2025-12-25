@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DbBroker Engine Dashboard</title>
+
+    <th:block th:replace="~{dbbroker/fragments/config :: config-script}"></th:block>
+
+    <th:block th:replace="~{dbbroker/fragments/head :: css-includes}"></th:block>
+</head>
+<body>
+
+<!-- Navigation -->
+<div th:replace="~{dbbroker/fragments/navigation :: navbar}"></div>
+
+<div class="container-fluid mt-4">
+    <!-- Error Display -->
+    <div th:replace="~{dbbroker/fragments/alerts :: error-display}"></div>
+
+    <!-- Status Messages -->
+    <div th:replace="~{dbbroker/fragments/alerts :: status-messages}"></div>
+
+    <!-- Service Status Header -->
+    <div th:replace="~{dbbroker/fragments/status :: service-header}"></div>
+
+    <!-- Key Metrics Row -->
+    <div th:replace="~{dbbroker/fragments/metrics :: metrics-cards}"></div>
+
+    <!-- System Information -->
+    <div th:replace="~{dbbroker/fragments/system :: system-info}"></div>
+
+    <!-- Error Information -->
+    <div th:replace="~{dbbroker/fragments/errors :: error-section}"></div>
+</div>
+
+<!-- JavaScript Includes -->
+<div th:replace="~{dbbroker/fragments/scripts :: js-includes}"></div>
+</body>
+</html>

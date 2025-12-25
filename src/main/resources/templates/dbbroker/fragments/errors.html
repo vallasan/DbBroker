@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Error Section Fragment -->
+<div th:fragment="error-section" class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-exclamation-triangle text-warning"></i> Recent Errors
+                        <span class="badge ms-2"
+                              data-error="badge"
+                              th:class="${hasHighErrorCount} ? 'badge bg-danger' : (${hasErrors} ? 'badge bg-warning' : 'badge bg-success')"
+                              th:text="${totalErrorCount}">0</span>
+                    </h5>
+                    <div th:replace="~{dbbroker/fragments/errors :: error-controls}"></div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div data-section="no-errors"
+                     class="text-center text-muted py-4">
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <p class="mb-0">No recent errors</p>
+                    <small class="text-muted">System is running smoothly</small>
+                </div>
+
+                <div th:replace="~{dbbroker/fragments/errors :: error-summary}"></div>
+                <div th:replace="~{dbbroker/fragments/errors :: error-list}"></div>
+                <div th:replace="~{dbbroker/fragments/errors :: error-statistics}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Controls Fragment -->
+<div th:fragment="error-controls" class="btn-group btn-group-sm" role="group">
+    <button type="button"
+            class="btn btn-outline-info"
+            data-refresh
+            title="Refresh dashboard (includes errors)">
+        <i class="fas fa-sync"></i> Refresh
+    </button>
+    <button type="button"
+            class="btn btn-outline-danger"
+            data-clear-errors
+            th:disabled="${!hasErrors}"
+            title="Clear all recent errors">
+        <i class="fas fa-trash"></i> Clear
+    </button>
+</div>
+
+<div th:fragment="error-summary"
+     class="row mb-3"
+     data-section="error-summary">
+    <div class="col-md-6">
+        <div class="alert"
+             th:class="${hasHighErrorCount} ? 'alert alert-danger' : 'alert alert-warning'">
+            <i class="fas fa-info-circle"></i>
+            <strong data-error="count" th:text="${totalErrorCount}">0</strong> recent errors tracked
+            <span th:if="${hasHighErrorCount}" class="ms-2">
+                <i class="fas fa-exclamation-triangle"></i> High error count detected!
+            </span>
+        </div>
+    </div>
+    <div class="col-md-6" th:if="${lastError != null and lastError != ''}">
+        <div class="alert alert-info">
+            <small class="text-muted">Most Recent:</small><br>
+            <span class="small"
+                  data-error="last"
+                  th:text="${lastError}">Last error message</span>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="error-list"
+     class="error-log-container"
+     data-section="error-list">
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-sm table-hover">
+            <thead class="table-dark sticky-top">
+            <tr>
+                <th style="width: 50px;">#</th>
+                <th style="width: 150px;">Timestamp</th>
+                <th>Error Message</th>
+                <th style="width: 100px;">Severity</th>
+            </tr>
+            </thead>
+            <tbody data-error-table-body>
+            <!-- Server-side fallback for initial load -->
+            <tr th:each="error, iterStat : ${recentErrors}"
+                th:class="${#strings.containsIgnoreCase(error, 'CRITICAL')} ? 'table-danger' :
+                              (${#strings.containsIgnoreCase(error, 'POISON')} ? 'table-warning' :
+                              (${#strings.containsIgnoreCase(error, 'SQL')} ? 'table-info' : 'table-light'))">
+                <td class="text-muted small" th:text="${iterStat.count}">1</td>
+                <td class="small font-monospace">
+                        <span th:if="${#strings.startsWith(error, '[')}"
+                              th:text="${#strings.substring(error, 1, 20)}">2024-12-12 22:21:26</span>
+                    <span th:unless="${#strings.startsWith(error, '[')}"
+                          class="text-muted">N/A</span>
+                </td>
+                <td class="small">
+                        <span th:if="${#strings.startsWith(error, '[')}"
+                              th:title="${error}"
+                              th:text="${#strings.length(error) > 122 ? #strings.substring(error, 22, 122) + '...' : #strings.substring(error, 22)}"
+                              style="cursor: help;">Error message</span>
+                    <span th:unless="${#strings.startsWith(error, '[')}"
+                          th:title="${error}"
+                          th:text="${#strings.length(error) > 100 ? #strings.substring(error, 0, 100) + '...' : error}"
+                          style="cursor: help;">Error message</span>
+                </td>
+                <td>
+                        <span th:if="${#strings.containsIgnoreCase(error, 'CRITICAL') or #strings.containsIgnoreCase(error, 'FATAL')}"
+                              class="badge bg-danger">CRITICAL</span>
+                    <span th:if="${#strings.containsIgnoreCase(error, 'POISON') and !#strings.containsIgnoreCase(error, 'CRITICAL') and !#strings.containsIgnoreCase(error, 'FATAL')}"
+                          class="badge bg-warning">POISON</span>
+                    <span th:if="${#strings.containsIgnoreCase(error, 'SQL') and !#strings.containsIgnoreCase(error, 'POISON') and !#strings.containsIgnoreCase(error, 'CRITICAL') and !#strings.containsIgnoreCase(error, 'FATAL')}"
+                          class="badge bg-info">SQL</span>
+                    <span th:unless="${#strings.containsIgnoreCase(error, 'CRITICAL') or #strings.containsIgnoreCase(error, 'FATAL') or #strings.containsIgnoreCase(error, 'POISON') or (#strings.containsIgnoreCase(error, 'SQL') and !#strings.containsIgnoreCase(error, 'POISON') and !#strings.containsIgnoreCase(error, 'CRITICAL'))}"
+                          class="badge bg-secondary">ERROR</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:fragment="error-statistics"
+     class="row mt-3"
+     data-section="error-statistics">
+    <div class="col-12">
+        <div class="card bg-light">
+            <div class="card-body py-2">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <small class="text-muted">Total Errors</small><br>
+                        <strong class="text-danger"
+                                data-error-stat="general"
+                                th:text="${errorStatistics?.totalErrors ?: 0}">0</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Critical Errors</small><br>
+                        <strong class="text-danger"
+                                data-error-stat="critical"
+                                th:text="${errorStatistics?.criticalErrors ?: 0}">0</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">SQL Errors</small><br>
+                        <strong class="text-info"
+                                data-error-stat="sql"
+                                th:text="${errorStatistics?.sqlErrors ?: 0}">0</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Poison Messages</small><br>
+                        <strong class="text-warning"
+                                data-error-stat="poison"
+                                th:text="${errorStatistics?.poisonMessages ?: 0}">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

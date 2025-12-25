@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Configuration Script Fragment -->
+<div th:fragment="config-script">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        window.dbBrokerConfig = {
+            basePath: /*[[@{/dbbroker}]]*/ '/dbbroker',
+            refreshInterval: /*[[${refreshInterval ?: 5000}]]*/ 5000,
+            apiPath: /*[[@{/dbbroker/api}]]*/ '/dbbroker/api'
+        };
+
+        console.log('DB Broker config loaded:', window.dbBrokerConfig);
+
+        window.buildApiUrl = function(endpoint) {
+            const cleanEndpoint = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
+            return window.dbBrokerConfig.apiPath + cleanEndpoint;
+        };
+        /*]]>*/
+    </script>
+</div>
+
+</body>
+</html>
